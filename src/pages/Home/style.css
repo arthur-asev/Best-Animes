@@ -69,3 +69,7 @@ a{
 footer{
     color: white;
     background-color:#393e46;}
+
+.cardEp:hover{
+    border:white solid 3px;
+}    

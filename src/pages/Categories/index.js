@@ -1,12 +1,13 @@
 import React from 'react';
 import ctg from  '../../assets/images/index'
-import Navbar from '../Nav'
+import Navbar from '../Nav/index'
 import './style.css'
 import Footer from '../Footer'
 
 function Home() {
     return (
         <>
+        
             <Navbar/>
             <div className="ctg"> Categorias</div>
             

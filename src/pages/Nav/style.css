@@ -81,6 +81,8 @@
 
 
 .rightIcon {
+    cursor: pointer;
+    margin-top: 0.2rem;
     margin-left: 5px;
     color: white;
     float: right;
@@ -93,6 +95,13 @@
     display: inline;
     color: white;
     text-decoration: none;
+}
+
+.search-bar{
+    height: 1.5rem;
+    margin-top: 10px;
+    border: none;
+    border-radius: 3px;
 }
 
 li{

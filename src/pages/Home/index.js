@@ -1,14 +1,16 @@
 import React from 'react';
 import epiImg from '../../assets/images/Shingeki.jpg'
 import ep1 from  '../../assets/images/index'
-import Navbar from '../Nav'
+import Nav from '../Nav/indexhome'
 import Footer from '../Footer'
 import './style.css'
 
+
+   
 function Home() {
     return (
         <>
-            <Navbar/>
+            <Nav/>
             <div className="lastEps"> Últimos episódios Lançados</div>
             <div className="epContainer">
             
