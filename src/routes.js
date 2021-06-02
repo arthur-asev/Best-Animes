@@ -4,6 +4,7 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import Categories from './pages/Categories'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import watchAnimes from './pages/Watchanimes';
 
 function Routes() {
     return (
@@ -13,6 +14,8 @@ function Routes() {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/categories" component={Categories} />
+                <Route exact path="/watchAnimes" component={watchAnimes} />
+
             </Switch>
         </BrowserRouter>
     );
