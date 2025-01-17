@@ -1,12 +1,12 @@
 import React from 'react';
 import Logo from '../../assets/images/Logo.png'
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router'
 import Footer from '../Footer'
 
 
 import './style.css';
 
-function Register() {
+const Register = () =>{
     return (
         <div>
             <nav className="navbar">

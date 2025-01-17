@@ -1,7 +1,7 @@
 import React from 'react'
 import Logo from '../../assets/images/Logo.png'
 import Carousel from './carousel'
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router'
 import './style.css'
 
 
@@ -23,6 +23,7 @@ function Nav() {
     return (
         <>
             <header>
+                
                 <div className="nav-bar">
                     <div id="Logo"><a href="/"><img src={Logo} alt="logo" /></a></div>
                     <ul className="nav-style">

@@ -2,13 +2,11 @@ import React from 'react'
 import Navbar from '../Nav/index'
 import ReactPlayer from 'react-player'
 
-function watchAnimes(){
+const watchAnimes = () =>{
     return(
         <>
         <Navbar/>
-        <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
-
-
+        <ReactPlayer url='https://www.youtube.com/watch?v=_XrM4Y1wR88' />
 
         </>
     )

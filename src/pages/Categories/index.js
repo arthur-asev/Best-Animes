@@ -4,7 +4,7 @@ import Navbar from '../Nav/index'
 import './style.css'
 import Footer from '../Footer'
 
-function Home() {
+const Home = () => {
     return (
         <>
         

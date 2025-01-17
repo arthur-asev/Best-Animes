@@ -1,12 +1,25 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
 import './index.css';
-import Routes from "./routes";
+import { BrowserRouter } from 'react-router';
+import App from "./app";
+import ReactDOM from 'react-dom/client';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Routes />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
 
+const rootElement = document.getElementById('root');
+
+if (rootElement) {
+  // Criar a raiz do React
+  const root = ReactDOM.createRoot(rootElement);
+
+  // Usar o método render para renderizar o JSX
+  root.render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+} else {
+  console.error('Elemento com id "root" não encontrado.');
+}

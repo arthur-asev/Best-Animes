@@ -7,7 +7,7 @@ import './style.css'
 
 
    
-function Home() {
+const Home = () => {
     return (
         <>
             <Nav/>

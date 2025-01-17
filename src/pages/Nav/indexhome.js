@@ -1,7 +1,7 @@
 import React from 'react'
 import Logo from '../../assets/images/Logo.png'
 import Carousel from './carousel'
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router'
 import './style.css'
 
 
