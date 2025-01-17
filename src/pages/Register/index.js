@@ -11,7 +11,7 @@ function Register() {
         <div>
             <nav className="navbar">
                 <Link to="/">
-                    <img  className="logo" src={Logo} width="120px" height="65px"/>
+                    <img  className="logo" src={Logo} alt='logo' width="120px" height="65px"/>
                 </Link>
             </nav>
             <div className="container">

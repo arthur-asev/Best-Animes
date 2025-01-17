@@ -32,12 +32,25 @@ a{
 
 }
 
+.container {
+    display: flex;
+    align-items: flex-start;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 15px 5px 15px black;
+}
+
+
+.flex-start{
+    justify-content: flex-start;
+}
 
 .epContainer{
-    margin: 0 7%;
+    margin: 1rem 7%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+
+    /* justify-content: flex-start; */
 }
 
 .epItemName{

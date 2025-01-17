@@ -12,6 +12,8 @@ function Home() {
         <>
             <Nav/>
             <div className="lastEps"> Últimos episódios Lançados</div>
+            <div className='container flex-start'>
+
             <div className="epContainer">
             
 
@@ -104,6 +106,7 @@ function Home() {
 
 
                
+            </div>
             </div>
             <Footer/>
             

@@ -1,4 +1,3 @@
-import React from 'react'
 import dale  from './dale.jpg';
 import dele  from './dele.jpg';
 import dile  from './dile.jpg';
