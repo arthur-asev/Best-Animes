@@ -1,0 +1,34 @@
+/* [project]/src/app/Categories/style.module.css [app-client] (css) */
+.style-module__NjdhcW__ctg {
+  color: #fff;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 20px;
+}
+
+.style-module__NjdhcW__cardCtg {
+  height: 300px;
+  margin: 0 20px;
+}
+
+.style-module__NjdhcW__cardCtg img {
+  width: 200px;
+  height: 250px;
+}
+
+.style-module__NjdhcW__ctgItemName {
+  color: #fff;
+  text-align: center;
+}
+
+.style-module__NjdhcW__ctgItemName:hover {
+  color: #9d9d9d;
+}
+
+.style-module__NjdhcW__ctgContainer {
+  flex-wrap: wrap;
+  justify-content: center;
+  display: flex;
+}
+
+/*# sourceMappingURL=src_app_Categories_style_module_css_bad6b30c._.single.css.map*/

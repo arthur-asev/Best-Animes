@@ -1,0 +1,52 @@
+/* [project]/src/components/Nav/nav.module.css [app-client] (css) */
+.nav-module__VFJyha__btnz {
+  cursor: pointer;
+  color: #fff;
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: lighter;
+  text-decoration: none;
+  display: inline;
+}
+
+.nav-module__VFJyha__btnz:focus {
+  outline: 0;
+}
+
+.nav-module__VFJyha__nav_bar {
+  background: linear-gradient(1deg, #414141, #801336, #c72c41, #ee4540);
+  width: 100%;
+  font-family: Roboto, sans-serif;
+  display: flex;
+}
+
+.nav-module__VFJyha__nav_style {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.nav-module__VFJyha__rightIcon {
+  cursor: pointer;
+  color: #fff;
+  float: right;
+  margin-top: .2rem;
+  margin-left: 5px;
+}
+
+.nav-module__VFJyha__nav_bar a {
+  color: #fff;
+  font-size: 20px;
+  font-weight: lighter;
+  text-decoration: none;
+  display: inline;
+}
+
+.nav-module__VFJyha__search_bar {
+  border: none;
+  border-radius: 3px;
+  height: 1.5rem;
+  margin-top: 10px;
+}
+
+/*# sourceMappingURL=src_components_Nav_nav_module_css_bad6b30c._.single.css.map*/

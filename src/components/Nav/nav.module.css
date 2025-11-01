@@ -1,0 +1,59 @@
+
+ 
+
+.btnz{
+    cursor: pointer;
+    background: none;
+    border: none;
+    border: none;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: lighter;
+    display: inline;
+    color: white;
+    text-decoration: none;
+}
+
+.btnz:focus{
+    outline: 0;
+}
+
+
+.nav_bar {
+    width: 100%;
+    display: flex;
+    background: linear-gradient(1deg, #414141, #801336, #c72c41, #ee4540);
+    font-family: 'Roboto', sans-serif;
+}
+
+.nav_style {
+    margin-top: 5px;
+    width: 100%;
+}
+
+
+.rightIcon {
+    cursor: pointer;
+    margin-top: 0.2rem;
+    margin-left: 5px;
+    color: white;
+    float: right;
+}
+
+.nav_bar a{
+
+    font-size: 20px;
+    font-weight: lighter;
+    display: inline;
+    color: white;
+    text-decoration: none;
+}
+
+.search_bar{
+    height: 1.5rem;
+    margin-top: 10px;
+    border: none;
+    border-radius: 3px;
+}
+
+

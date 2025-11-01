@@ -1,0 +1,82 @@
+/* [project]/src/globals.css [app-client] (css) */
+.App {
+  text-align: center;
+  color: #fff;
+  background-color: #0a939c;
+  padding: 10px;
+}
+
+footer {
+  background-color: #ecf0f1;
+}
+
+li {
+  padding: 10px;
+  list-style-type: none;
+  display: inline-block;
+}
+
+body {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+}
+
+.thumb {
+  cursor: pointer;
+  color: #fff;
+  width: 100%;
+  padding: 0 5%;
+  text-decoration: none;
+}
+
+.thumb img {
+  width: 100%;
+  height: 30vh;
+  min-height: 220px;
+}
+
+.slick_dots li button:before {
+  color: #fff;
+  opacity: .6;
+}
+
+.slick_dots {
+  color: #fff;
+}
+
+.thumb p {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.thumbLink {
+  color: #fff;
+  cursor: pointer;
+}
+
+#carousel {
+  background: linear-gradient(#232931, #fa4659, #fa4659, #232931);
+  border-radius: 0 0 10px 10px;
+  width: 70vw;
+  margin: 0 auto;
+  padding: 25px 1.5rem;
+  display: none;
+}
+
+#Logo img {
+  width: 100px;
+  height: 4rem;
+  margin: 0 100px;
+  display: flex;
+}
+
+/*# sourceMappingURL=src_globals_css_bad6b30c._.single.css.map*/
