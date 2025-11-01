@@ -1,6 +1,7 @@
 {
   "app": {
-    "[project]/src/app/_not-found/page": [],
+    "[project]/src/app/Categories/page": [],
+    "[project]/src/app/Watchanimes/page": [],
     "[project]/src/app/page": []
   },
   "appUsingSizeAdjust": false,

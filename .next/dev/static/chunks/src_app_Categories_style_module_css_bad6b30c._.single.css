@@ -11,6 +11,12 @@
   margin: 0 20px;
 }
 
+.style-module__NjdhcW__container {
+  flex-direction: column;
+  height: 100vh;
+  display: flex;
+}
+
 .style-module__NjdhcW__cardCtg img {
   width: 200px;
   height: 250px;
@@ -28,6 +34,7 @@
 .style-module__NjdhcW__ctgContainer {
   flex-wrap: wrap;
   justify-content: center;
+  margin: 2rem;
   display: flex;
 }
 

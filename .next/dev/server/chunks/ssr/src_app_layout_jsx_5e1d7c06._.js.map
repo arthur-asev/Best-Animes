@@ -2,5 +2,5 @@
   "version": 3,
   "sources": [],
   "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}}]
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///home/arthur/Documents/Projetos/Pessoal/Best-Animes/src/app/layout.jsx"],"sourcesContent":["import \"../globals.css\" // seu CSS global, pode renomear index.css para isso\nimport \"@fortawesome/fontawesome-svg-core/styles.css\";\nimport { config } from \"@fortawesome/fontawesome-svg-core\";\nconfig.autoAddCss = false; // Evita que o Font Awesome adicione CSS automaticamente\n\nexport const metadata = {\n  title: \"BestAnimes\",\n  description: \"Assista seus animes favoritos\",\n};\n\nexport default function RootLayout({ children }) {\n  return (\n    <html lang=\"pt-BR\">\n      <body>{children}</body>\n    </html>\n  );\n}\n"],"names":[],"mappings":";;;;;;;AAEA;;;;;AACA,+KAAM,CAAC,UAAU,GAAG,OAAO,wDAAwD;AAE5E,MAAM,WAAW;IACtB,OAAO;IACP,aAAa;AACf;AAEe,SAAS,WAAW,EAAE,QAAQ,EAAE;IAC7C,qBACE,8OAAC;QAAK,MAAK;kBACT,cAAA,8OAAC;sBAAM;;;;;;;;;;;AAGb","debugId":null}}]
 }

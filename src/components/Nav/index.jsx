@@ -1,11 +1,11 @@
 import React from 'react'
 import Logo from '../../assets/images/Logo.png'
 import Carousel from '../Carrousel/carousel'
-import  Link  from 'next/link';
-import  style from './nav.module.css'
+import Link from 'next/link';
+import style from './nav.module.css'
 import Image from 'next/image';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser,faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 
 function showCarousel() {
@@ -27,12 +27,12 @@ function Nav() {
             <header>
 
                 <div className={style.nav_bar}>
-                    <div id="Logo"><a href="/"> <Image src={Logo} loading="eager" alt='github'/></a></div>
+                    <div id="Logo"><a href="/"> <Image src={Logo} loading="eager" alt='github' /></a></div>
                     <ul className={style.nav_style}>
                         <li><Link href="/">Inicio</Link></li>
                         <li><button className={style.btnz} onClick={showCarousel}>Lançamentos</button></li>
                         <li><Link href="/Categories">Categorias</Link></li>
-                        <Link href="/login">
+                        <Link href="/Login">
                             <li className={style.rightIcon}> <FontAwesomeIcon icon={faUser} />  login</li>
                         </Link>
                         <li className={style.rightIcon}> <FontAwesomeIcon icon={faSearch} /> Pesquisar</li>

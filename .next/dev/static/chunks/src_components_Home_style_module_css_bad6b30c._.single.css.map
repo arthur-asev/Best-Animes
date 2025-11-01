@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/src/components/Home/style.module.css"],"sourcesContent":["\n\n.epImg{\n    width: 30rem !important;\n    height: 20rem !important;\n\n}\n.epLeg h4{\n    text-align: center;\n    width: 311px;\n    color: white;\n    background-color: #94bb05;\n    padding: 8px;\n\n}\n.cardEp{\n    display: flex;  \n    margin: 0 10px 10px;\n   \n\n\n}\n\n.container {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    font-family: 'Roboto', sans-serif;\n}\n\n\n.flex-start{\n    justify-content: flex-start;\n}\n\n.epContainer{\n    margin: 1rem 7%;\n    display: flex;\n    flex-wrap: wrap;\n\n    /* justify-content: flex-start; */\n}\n\n.epItemName{\n    color: white;\n    display: flex;\n    width: 100%;\n    align-items: center;\n    justify-content: center;\n    font-size: 15px;\n    margin-top: 10px;\n    margin-left: 10px;\n\n}\n.lastEps{\n    margin: 10px 0;\n    color: white;\n    text-align: center;\n    font-size: 20px;\n}\n\n.icon-play {\n   margin-left: 20px;\n}\n\n.clear{\n    clear: both;\n}\n\n\n.cardEp:hover{\n    border:white solid 3px;\n}    "],"names":[],"mappings":"AAEA;;;;;AAKA;;;;;;;;AAQA;;;;;AAQA;;;;;;;AAQA;;;;AAIA;;;;;;AAQA;;;;;;;;;;;AAWA;;;;;;;AAOA;;;;AAIA;;;;AAKA"}}]
+}

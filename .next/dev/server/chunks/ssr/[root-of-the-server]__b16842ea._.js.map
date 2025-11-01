@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 14, "column": 0}, "map": {"version":3,"sources":["file:///home/arthur/Documents/Projetos/Pessoal/Best-Animes/src/app/Watchanimes/page.jsx"],"sourcesContent":["import React from 'react'\nimport Navbar from '../Nav'\nimport ReactPlayer from 'react-player'\nimport Footer from '../Footer'\n\nconst watchAnimes = () => {\n    return (\n        <>\n            <Navbar />\n            <ReactPlayer url='https://www.youtube.com/watch?v=_XrM4Y1wR88' />\n            <Footer />\n        </>\n    )\n\n\n}\n\nexport default watchAnimes\n"],"names":[],"mappings":";;;;;AAAA;;;;;;AAEA;;;;;;;;;;;AAGA,MAAM,cAAc;IAChB,qBACI;;0BACI,8OAAC;;;;;0BACD,8OAAC,2JAAW;gBAAC,KAAI;;;;;;0BACjB,8OAAC;;;;;;;AAKb;uCAEe","debugId":null}}]
+}

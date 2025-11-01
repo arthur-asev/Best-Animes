@@ -23,6 +23,20 @@ app.get('/api/anime/:title', async (req, res) => {
   }
 });
 
+
+app.get('/api/listanime', async (req,res) => {
+  try {
+    const response = await axios.get(`https://api.jikan.moe/v4/anime`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Erro ao buscar dados da API Jikan:', error.message);
+    res.status(500).json({ error: 'Erro ao buscar dados da API Jikan' });
+  }
+});
+
+
+
+
 // Iniciar o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);

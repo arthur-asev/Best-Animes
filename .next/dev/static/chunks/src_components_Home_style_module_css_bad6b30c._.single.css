@@ -1,0 +1,67 @@
+/* [project]/src/components/Home/style.module.css [app-client] (css) */
+.style-module__McH8za__epImg {
+  width: 30rem !important;
+  height: 20rem !important;
+}
+
+.style-module__McH8za__epLeg h4 {
+  text-align: center;
+  color: #fff;
+  background-color: #94bb05;
+  width: 311px;
+  padding: 8px;
+}
+
+.style-module__McH8za__cardEp {
+  margin: 0 10px 10px;
+  display: flex;
+}
+
+.style-module__McH8za__container {
+  flex-direction: column;
+  align-items: center;
+  font-family: Roboto, sans-serif;
+  display: flex;
+}
+
+.style-module__McH8za__flex-start {
+  justify-content: flex-start;
+}
+
+.style-module__McH8za__epContainer {
+  flex-wrap: wrap;
+  margin: 1rem 7%;
+  display: flex;
+}
+
+.style-module__McH8za__epItemName {
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 15px;
+  display: flex;
+}
+
+.style-module__McH8za__lastEps {
+  color: #fff;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 20px;
+}
+
+.style-module__McH8za__icon-play {
+  margin-left: 20px;
+}
+
+.style-module__McH8za__clear {
+  clear: both;
+}
+
+.style-module__McH8za__cardEp:hover {
+  border: 3px solid #fff;
+}
+
+/*# sourceMappingURL=src_components_Home_style_module_css_bad6b30c._.single.css.map*/

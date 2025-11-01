@@ -1,16 +1,18 @@
 import React from 'react';
 import Logo from '../../assets/images/Logo.png';
-import { Link } from 'next/link';
+import  Link  from 'next/link';
 import Footer from '../../components/Footer';
 import style from './style.module.css';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock,faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
+import Image from 'next/image';
 
 const Login = () => {
     return (
-            <div>
+            <div className={style.login_container}>
                 <nav className={style.navbar}>
                     <Link href="/">
-                        <img className={style.logo} src={Logo} width="120px" height="65px" alt="Logo" />
+                        <Image className={style.logo} src={Logo} width="120px" height="65px" alt="Logo" />
                     </Link>
                 </nav>
                 <div className={style.container}>
@@ -33,6 +35,7 @@ const Login = () => {
                                     </a>
                                     <a className={style['link-social-media']} href="#">
                                         <li className={style['item-social-media']}>
+                                         
                                             <i className={style.fab + ' fa-google-plus-g'}></i>
                                         </li>
                                     </a>
@@ -45,13 +48,13 @@ const Login = () => {
                             </div>
                             <p className={`${style.description} ${style['description-second']}`}>preencha os dados</p> {/* Múltiplas classes com hífen */}
                             <form className={style.form}>
-                                <label className={style['label-input']}> {/* Classe com hífen */}
-                                    <i className={style.fas + ' fa-user ' + style['icon-modify']}></i> {/* Múltiplas classes, incluindo global e com hífen */}
+                                <label className={`${style['label-input']}`}> {/* Classe com hífen */}
+                                   <FontAwesomeIcon  icon={faUser}/>
                                     <input type="text" placeholder="Nome" />
                                 </label>
 
-                                <label className={style['label-input']}>
-                                    <i className={style.fas + ' fa-lock ' + style['icon-modify']}></i>
+                                <label className={`${style['label-input']}`}>
+                                      <FontAwesomeIcon  icon={faLock}/>
                                     <input type="password" placeholder="Senha" />
                                 </label>
                                 <p className={`${style.description} ${style['description-second']}`}>Esqueceu sua senha?</p>
