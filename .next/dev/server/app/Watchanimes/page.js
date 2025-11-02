@@ -1,6 +1,6 @@
 var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/Watchanimes/page.js")
 R.c("server/chunks/ssr/node_modules_next_dist_e6fbc64a._.js")
-R.c("server/chunks/ssr/[root-of-the-server]__3b469e0f._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__c308e489._.js")
 R.c("server/chunks/ssr/node_modules_next_dist_b704424f._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__7f148858._.js")
 R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_global-error_ece394eb.js")

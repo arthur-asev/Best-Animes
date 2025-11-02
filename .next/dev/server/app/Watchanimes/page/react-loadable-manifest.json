@@ -1,9 +1,1 @@
-{
-  "[project]/node_modules/react-slick/lib/index.js [app-client] (ecmascript, next/dynamic entry)": {
-    "id": "[project]/node_modules/react-slick/lib/index.js [app-client] (ecmascript, next/dynamic entry)",
-    "files": [
-      "static/chunks/node_modules_65b909ad._.js",
-      "static/chunks/node_modules_react-slick_lib_index_f24dc3f5.js"
-    ]
-  }
-}
+{}
