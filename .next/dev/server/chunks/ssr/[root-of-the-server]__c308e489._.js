@@ -57,7 +57,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$VideoPl
 ;
 ;
 function Page() {
-    const videoUrl = "https://dh.netmagcdn.com:2228/hls-playback/bc46bb8b581e8a4c2a8444adec9d7fe2e0d3fe743c99a7bd3f842d6fd924af83e1ee6763f55f70b1627f3209a6465350240a8e5ad6ba7eec0b5553216c3d6b274f2941026f5dd96f090cf3bd3ecce6c50cb165b0a197498e0f883212e9e5dab128804441933222608109a42d56dc498d8a883b365972374ab485201727fd651b1c86ce4bdfdc45f18f5652ae11c5bcde/master.m3u8";
+    const videoUrl = "https://de.netmagcdn.com:2228/hls-playback/bc46bb8b581e8a4c2a8444adec9d7fe2e0d3fe743c99a7bd3f842d6fd924af83e1ee6763f55f70b1627f3209a6465350209ab3675dc3b6ae47636bec6fe236e01dd1b9cd2fb3bcace933e86adcb6bd43a789ea61b3b58f2b8e846a3df65c87dbeb97927680241f8e404bcdd0d70c1c3b63ab84a4dc2d482d8dc7079268f5e5a02279df51d48b4faab9a9f7141f02f69a/master.m3u8";
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -67,20 +67,20 @@ function Page() {
                 children: "🎬 Player com Proxy Axios"
             }, void 0, false, {
                 fileName: "[project]/src/app/Watchanimes/page.jsx",
-                lineNumber: 10,
+                lineNumber: 9,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$VideoPlayer$2f$page$2e$jsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
                 src: videoUrl
             }, void 0, false, {
                 fileName: "[project]/src/app/Watchanimes/page.jsx",
-                lineNumber: 11,
+                lineNumber: 10,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/Watchanimes/page.jsx",
-        lineNumber: 9,
+        lineNumber: 8,
         columnNumber: 5
     }, this);
 }
