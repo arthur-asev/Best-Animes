@@ -16,8 +16,10 @@ const Home = () => {
 
     useEffect(() => {
         async function fetchAnimes() {
-            const res = await fetch('http://localhost:5000/api/listanime');
+            const res = await fetch('https://yumaapi.vercel.app/recent-episodes');
             const data = await res.json();
+            console.log(data);
+            
             setAnime(data);
         }
         fetchAnimes();
@@ -32,7 +34,7 @@ const Home = () => {
         const fetchAnime = async () => {
             try {
                 setLoading(true);
-                const res = await fetch(`http://localhost:5000/api/anime/${title}`);
+                const res = await fetch(`https://yumaapi.vercel.app/search/${title}`);
                 const data = await res.json();
                 setAnime(data);
                 console.log(data);
@@ -63,7 +65,7 @@ const Home = () => {
 
                 {/* <div className={style.lastEps}> Últimos episódios Lançados</div> */}
 
-                <div>
+                <div className='container '>
 
                     <div className='flex justify-end shadow-[5px_20px_18px_#181515]  items-center '>
 
@@ -87,33 +89,26 @@ const Home = () => {
                     {loading && <p>Carregando...</p>}
 
                     {!loading && anime && (
-                        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-8 ">
-                            {anime.data.map((anime) => (
-                                <div key={anime.mal_id} className="bg-gray-700 p-4 flex flex-col shadow hover:scale-105 transition max-h-[620px]">
+                        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-5 gap-8 ">
+                            {anime.results.map((anime) => (
+                                <div key={anime.id} className="bg-gray-700 p-4 flex flex-col shadow hover:scale-105 transition max-h-[620px]">
                                     <div className='flex justify-center max-w-[411px] max-h-[500px]'>
                                         <Image
                                             width={300}
                                             height={100}
                                             loading='eager'
-                                            src={anime.images?.jpg?.image_url}
+                                            src={anime.image}
                                             alt={anime.title}
                                             className={`${style.epImg} `}
                                         />
                                     </div>
 
                                     <h3 className="text-lg text-center text-white font-semibold mt-2">{anime.title}</h3>
-                                    {/* <p className="text-sm text-gray-600 line-clamp-3 mt-1">
-                                        {anime.synopsis || "Sem descrição"}
-                                    </p>
-                                    <a
-                                        href={anime.url}
-                                        target="_blank"
-                                        className="text-blue-600 text-sm mt-2 inline-block"
-                                    >
-                                        Ver mais →
-                                    </a> */}
                                 </div>
                             ))}
+                            <div>
+                                
+                            </div>
                         </div>
                     )}
                 </div>

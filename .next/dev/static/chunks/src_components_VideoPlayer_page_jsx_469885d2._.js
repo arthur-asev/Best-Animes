@@ -24,7 +24,7 @@ function VideoPlayer({ src }) {
             const hls = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$hls$2e$js$2f$dist$2f$hls$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"]();
             // Encapsula a URL m3u8 via proxy
             const encodedUrl = encodeURIComponent(src);
-            const proxyUrl = `http://localhost:5000/proxy?url=${encodedUrl}`;
+            const proxyUrl = `http://192.168.0.20:5000/proxy?url=${encodedUrl}`;
             hls.loadSource(proxyUrl);
             hls.attachMedia(video);
             hls.on(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$hls$2e$js$2f$dist$2f$hls$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].Events.MANIFEST_PARSED, {
@@ -54,12 +54,12 @@ function VideoPlayer({ src }) {
             }
         }, void 0, false, {
             fileName: "[project]/src/components/VideoPlayer/page.jsx",
-            lineNumber: 28,
+            lineNumber: 29,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/VideoPlayer/page.jsx",
-        lineNumber: 27,
+        lineNumber: 28,
         columnNumber: 5
     }, this);
 }

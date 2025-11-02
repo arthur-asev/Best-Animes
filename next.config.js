@@ -29,7 +29,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'animefire.plus',
+                hostname: 'cdn.noitatnemucod.net',
             }
         ],
     },

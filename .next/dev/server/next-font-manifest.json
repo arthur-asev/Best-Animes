@@ -1,6 +1,6 @@
 {
   "app": {
-    "[project]/src/app/Watchanimes/page": []
+    "[project]/src/app/page": []
   },
   "appUsingSizeAdjust": false,
   "pages": {},

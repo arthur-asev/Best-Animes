@@ -14,16 +14,17 @@ export default function VideoPlayer({ src }) {
 
     // Encapsula a URL m3u8 via proxy
     const encodedUrl = encodeURIComponent(src);
-    const proxyUrl = `http://localhost:5000/proxy?url=${encodedUrl}`;
+    const proxyUrl = `http://192.168.0.20:5000/proxy?url=${encodedUrl}`;
 
     hls.loadSource(proxyUrl);
     hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(() => {}));
+    hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(() => { }));
 
     return () => hls.destroy();
   }, [src]);
 
   return (
+
     <div style={{ maxWidth: 720, margin: "0 auto" }}>
       <video
         ref={videoRef}
