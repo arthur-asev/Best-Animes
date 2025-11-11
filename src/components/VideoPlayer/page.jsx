@@ -5,24 +5,25 @@ import Hls from "hls.js";
 
 export default function VideoPlayer({ src }) {
   const videoRef = useRef(null);
-
+  
   useEffect(() => {
-    if (!src || !videoRef.current) return;
+    if (!src.url || !videoRef.current) return;
 
     const video = videoRef.current;
     const hls = new Hls();
 
     // Encapsula a URL m3u8 via proxy
-    const encodedUrl = encodeURIComponent(src);
-    const proxyUrl = `http://192.168.0.20:5000/proxy?url=${encodedUrl}`;
+    const encodedUrl = encodeURIComponent(src.url);
+    const proxyUrl = `/proxy?url=${encodedUrl}`;
 
     hls.loadSource(proxyUrl);
     hls.attachMedia(video);
     hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(() => { }));
 
     return () => hls.destroy();
-  }, [src]);
+  }, [src.url]);
 
+  
   return (
 
     <div style={{ maxWidth: 720, margin: "0 auto" }}>
