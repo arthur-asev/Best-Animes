@@ -2,8 +2,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import images from '../../assets/images/';
+import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 
 const Slider = dynamic(() => import("react-slick"), { ssr: false });
 
@@ -13,17 +14,18 @@ function MultipleItems() {
     const [anime, setAnime] = useState(null); // resultado da API
     const [loading, setLoading] = useState(false);
 
-    console.log(anime);
-    
     useEffect(() => {
         async function fetchAnimes() {
-            const res = await fetch('https://yumaapi.vercel.app/top-airing');
-            const data = await res.json();
-            console.log(data);
+            const res = await axios.get('/api/anime/top-airing');
+            const data = await res.data;
+            // console.log(data);
             setAnime(data);
         }
         fetchAnimes();
-    }, []);
+    },
+
+
+        []);
 
 
     const settings = {
@@ -68,31 +70,36 @@ function MultipleItems() {
         ]
     };
 
-    return (
-
-        <div className="carousel_container">
-            {/* {loading && <p>Carregando...</p>}
-            <div id="carousel">
+return (
+    <div className="carousel_container  bg-gray-900 text-gray-100">
+        {loading && <p>Carregando...</p>}
+        <div id="carousel">
+            {/* Adicionar a verificação condicional aqui: anime && anime.results */}
+            {anime && anime.results && anime.results.length > 0 ? (
                 <Slider {...settings}>
-                    {anime.results.map((anime) => (
-
-                        <div className="thumb">
-                            <div key={anime.id} className="thumb">
-                                <a className="thumbLink" href="">
-                                    <Image
-                                        width={300}
-                                        height={100}
-                                        loading='eager' src={anime.image} alt={anime.title} />
-                                    <p className="text-lg text-center text-white font-semibold mt-2">{anime.title}</p>
-                                </a>
-                            </div>
+                    {anime.results.map((item) => ( // Troquei 'anime' por 'item' para evitar conflito de nome
+                        <div key={item.id} className="thumb"> 
+                            {/* ... seu código de renderização do item ... */}
+                            <Link className="thumbLink" href={`/animedetail/${item.id}`}>
+                                <Image
+                                    width={300}
+                                    height={100}
+                                    loading='eager' 
+                                    src={item.image} 
+                                    alt={item.title} 
+                                />
+                                <p className="text-lg text-center text-white font-semibold mt-2">{item.title}</p>
+                            </Link>
                         </div>
                     ))}
-
                 </Slider>
-            </div> */}
+            ) : (
+                // Opcional: Mostrar algo se não houver dados
+                !loading && <p>Nenhum anime encontrado.</p>
+            )}
         </div>
-    );
+    </div>
+);
 }
 
 export default MultipleItems;
