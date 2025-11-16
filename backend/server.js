@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 
 // ----------------------
-// Redis Upstash
+// Redis Upstash Setup
 // ----------------------
 const redis = new Redis(process.env.SERVER_API_REDIS_CONN_URL, { tls: {} });
 
@@ -44,6 +44,7 @@ async function fetchSegmentsConcurrently(urls, concurrency = 5, readyThreshold =
             },
           });
           // Cache está ATIVO
+          // Mantém o TTL alto (3600s) para o segmento de mídia (.ts)
           await redis.setex(cacheKey, 3600, response.data);
 
           readyCount++;
@@ -74,6 +75,11 @@ async function fetchSegmentsConcurrently(urls, concurrency = 5, readyThreshold =
 async function fetchRemote(url, res, rewrite = false) {
   // Define o cache key no início para uso no cache, log e tratamento de erros.
   const cacheKey = `cache:${url}`; 
+  const isM3U8 = url.endsWith(".m3u8");
+
+  // DEFINIÇÃO DO TTL OTIMIZADA: M3U8 usa TTL bem curto para evitar playlist defasada
+  const REDIS_M3U8_TTL = 5; // 5 segundos, essencial para streams live/near-live
+  const REDIS_SEGMENT_TTL = 3600; // 1 hora para segmentos (.ts)
 
   // Adicionar listener para detectar se o cliente cancelou a conexão.
   res.on('close', () => {
@@ -82,23 +88,35 @@ async function fetchRemote(url, res, rewrite = false) {
     }
   });
 
+  // --- Aplicação dos Cabeçalhos de Cache no Cliente (Browser) ---
+  if (isM3U8) {
+    // IMPORTANTE: Previne que o navegador/player armazene em cache a playlist,
+    // garantindo que ele sempre peça a versão mais recente do nosso proxy.
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); 
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+  } else {
+    // Permite cache no cliente para segmentos por 1h (para reduzir carga no proxy)
+    res.setHeader('Cache-Control', `public, max-age=${REDIS_SEGMENT_TTL}`); 
+  }
+  // -----------------------------------------------------------------
+
+
   try {
-    // 1. Tentar buscar do Redis (CACHE REATIVADO)
+    // 1. Tentar buscar do Redis
     const cached = await redis.getBuffer(cacheKey);
 
     if (cached) {
       console.log("🟢 Cache hit:", url);
       
-      // FIX: Se a flag 'rewrite' estiver ativa, significa que estamos lidando com um M3U8
-      // Playlists M3U8 PRECISAM ser reescritas ANTES de serem enviadas ao player,
-      // mesmo que venham do cache.
-      if (rewrite) {
-          // Define o Content-Type correto
+      if (rewrite && isM3U8) {
+          // Playlists M3U8 PRECISAM ser reescritas ANTES de serem enviadas ao player,
+          // mesmo que venham do cache.
           res.setHeader("Content-Type", "application/vnd.apple.mpegurl");
 
           let text = cached.toString("utf8");
           const baseUrl = url.substring(0, url.lastIndexOf("/") + 1);
-          const proxyHost = `http://192.168.0.20:5000`;
+          const proxyHost = `http://localhost:5000`;
 
           // Aplica a lógica de reescrita
           text = text.replace(/^(?!#)([^:\n\r]+)$/gm, (match) => {
@@ -110,8 +128,7 @@ async function fetchRemote(url, res, rewrite = false) {
           res.send(Buffer.from(text, "utf8"));
           return;
       } else {
-          // Para segmentos (.ts) ou outros arquivos que não precisam de reescrita, 
-          // basta enviar o conteúdo em cache diretamente.
+          // Para segmentos (.ts) ou outros arquivos
           res.send(cached);
           return;
       }
@@ -135,32 +152,27 @@ async function fetchRemote(url, res, rewrite = false) {
 
     let data = response.data;
 
-    // 3. Reescrever playlist se necessário (LÓGICA REFORÇADA PARA PLAYLIST MESTRA E DE MÍDIA)
-    if (rewrite && contentType.includes("application/vnd.apple.mpegurl")) {
+    // 3. Reescrever playlist e iniciar pré-busca se for M3U8
+    if (rewrite && isM3U8 && contentType.includes("application/vnd.apple.mpegurl")) {
       let text = Buffer.from(response.data).toString("utf8");
-      // O baseUrl é crucial para resolver URLs relativas dentro da playlist
       const baseUrl = url.substring(0, url.lastIndexOf("/") + 1);
+      const segmentUrls = []; 
 
-      const segmentUrls = []; // Manter o rastreamento para pré-busca
+      // Host do seu proxy local
+      const proxyHost = `http://localhost:5000`;
 
       // Expressão Regular: Captura linhas que não começam com '#' (comentários)
-      // e que não contêm '://' (provavelmente URLs absolutas já válidas/externas)
       text = text.replace(/^(?!#)([^:\n\r]+)$/gm, (match) => {
 
-        // 1. Converte o caminho relativo/simples para URL completa original
         const fullUrl = new URL(match, baseUrl).href;
 
-        // Host do seu proxy local
-        const proxyHost = `http://192.168.0.20:5000`;
-
-        // Verifica o tipo de arquivo apenas para fins de log e pré-busca
         if (match.endsWith(".ts") || match.endsWith(".aac")) {
           segmentUrls.push(fullUrl);
         } else if (match.endsWith(".m3u8")) {
           console.log("🔗 Convertendo Playlist de Mídia/Master para proxy:", fullUrl);
         }
         
-        // ✅ RETORNA O PROXY URL: Este link será acessado pelo player na próxima requisição
+        // ✅ RETORNA O PROXY URL
         return `${proxyHost}/stream?url=${encodeURIComponent(fullUrl)}`;
       });
 
@@ -175,8 +187,8 @@ async function fetchRemote(url, res, rewrite = false) {
     }
 
     // 4. Salvar no cache e responder
-    const ttl = url.endsWith(".m3u8") ? 600 : 3600;
-    // Tentar salvar no Redis. Adiciona um try/catch para a operação Redis em si (CACHE REATIVADO)
+    const ttl = isM3U8 ? REDIS_M3U8_TTL : REDIS_SEGMENT_TTL;
+    
     try {
       await redis.setex(cacheKey, ttl, data); 
     } catch (redisError) {
@@ -193,42 +205,31 @@ async function fetchRemote(url, res, rewrite = false) {
     let statusCode = 500;
     let errorMessage = "Internal Proxy Error: Could not fetch resource.";
 
-    // Verifica se é um erro do Axios (erro de rede ou HTTP upstream)
     if (axios.isAxiosError(error)) {
       if (error.response) {
-        // Erro HTTP do servidor de destino (ex: 403 Forbidden, 404 Not Found)
         statusCode = error.response.status;
         const statusText = error.response.statusText;
         errorMessage = `Upstream HTTP Error: ${statusCode} ${statusText}.`;
 
         console.error(`❌ HTTP Upstream Error! URL: ${url}. Status: ${statusCode} ${statusText}. Data Size: ${error.response.data.length} bytes.`);
-
-        // Loga os headers para verificação de permissões/tipos de conteúdo
         console.error("   Headers Upstream:", error.response.headers);
 
       } else if (error.request) {
-        // Erro de rede (ex: timeout, DNS lookup failure, servidor inacessível)
         statusCode = 504; // Gateway Timeout
         errorMessage = `Network Error: Could not reach upstream server (${error.code}).`;
-
         console.error(`❌ Network/Timeout Error! URL: ${url}. Code: ${error.code}. Message: ${error.message}`);
 
       } else {
-        // Erro na configuração da requisição Axios
         console.error("❌ Axios Configuration Error:", error.message);
       }
     } else if (error instanceof Redis.ReplyError) {
-      // Erro do Redis (ex: limite de conexão, erro de comando)
       statusCode = 503;
       errorMessage = `Cache Service Error: ${error.message}`;
       console.error("❌ REDIS Error:", error.message);
     } else {
-      // Outros erros (ex: erro de URL parsing, erro de lógica no proxy)
       console.error("❌ General Proxy Logic Error:", error.message);
     }
 
-    // Retorna uma resposta amigável (sem expor detalhes internos do erro)
-    // Usamos o status code correto (4xx ou 5xx) para o cliente
     res.status(statusCode).json({ error: "Failed to process request. Check server logs for details." });
   }
 }
@@ -255,7 +256,7 @@ app.get("/stream", async (req, res) => {
   // Detecta se a URL que veio do próprio proxy é uma nova playlist M3U8
   const isM3U8 = url.endsWith(".m3u8");
   
-  // Configura o Content-Type corretamente
+  // Configura o Content-Type corretamente (embora fetchRemote também o faça após o fetch)
   if (isM3U8) res.setHeader("Content-Type", "application/vnd.apple.mpegurl");
   else if (url.endsWith(".ts")) res.setHeader("Content-Type", "video/MP2T");
   
@@ -278,6 +279,7 @@ app.get("/clear-cache", async (req, res) => {
 // ----------------------
 // Start server
 // ----------------------
-app.listen(5000, () => {
-  console.log("🚀 Proxy HLS ultra-otimizado rodando em http://192.168.0.20:5000");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Proxy HLS ultra-otimizado rodando em http://localhost:${PORT}`);
 });
