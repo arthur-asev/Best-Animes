@@ -77,18 +77,17 @@ return (
             {/* Adicionar a verificação condicional aqui: anime && anime.results */}
             {anime && anime.results && anime.results.length > 0 ? (
                 <Slider {...settings}>
-                    {anime.results.map((item) => ( // Troquei 'anime' por 'item' para evitar conflito de nome
-                        <div key={item.id} className="thumb"> 
-                            {/* ... seu código de renderização do item ... */}
-                            <Link className="thumbLink" href={`/animedetail/${item.id}`}>
+                    {anime.results.map((card) => ( 
+                        <div key={card.id} className="thumb"> 
+                            <Link className="thumbLink" href={`/animedetail/${card.id}`}>
                                 <Image
                                     width={300}
                                     height={100}
                                     loading='eager' 
-                                    src={item.image} 
-                                    alt={item.title} 
+                                    src={card.image} 
+                                    alt={card.title} 
                                 />
-                                <p className="text-lg text-center text-white font-semibold mt-2">{item.title}</p>
+                                <p className="text-lg text-center text-white font-semibold mt-2">{card.title}</p>
                             </Link>
                         </div>
                     ))}

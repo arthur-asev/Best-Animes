@@ -10,20 +10,32 @@ const nextConfig = {
                 // ... envie para o meu backend (mantendo o resto do path)
                 destination: 'http://0.0.0.0:5001/anime/zoro/:path*',
             },
-           {
+            {
                 // SOURCE: Captura o ID do segmento de caminho
-                source: '/api/anime/info:id', 
-                
+                source: '/api/anime/info:id',
+
                 // DESTINATION: Usa o ID capturado (:id) e o insere no formato de query parameter (?id=)
                 destination: 'http://0.0.0.0:5001/anime/zoro/info?id=:id',
             },
             {
                 // SOURCE: Captura o ID do segmento de caminho
-                source: '/api/anime/watch/:id', 
-                
+                source: '/api/anime/watch/:id',
                 // DESTINATION: Usa o ID capturado (:id) e o insere no formato de query parameter (?id=)
                 destination: 'http://0.0.0.0:5001/anime/zoro/watch/:id',
             },
+            {
+                source: '/genreslist',
+                destination: 'http://0.0.0.0:5001/anime/zoro/genre/list',
+            },
+
+            {
+                source: '/proxy/:path*',
+
+                // 2. Para onde o Next.js deve enviar (o 'destination')
+                // O :path* garante que o restante da URL, incluindo a query string, seja repassado
+                destination: 'http://localhost:5000/proxy/:path*',
+            }
+
         ];
     },
     // Configuração correta para allowedDevOrigins

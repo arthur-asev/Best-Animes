@@ -1,9 +1,12 @@
-import redis from "ioredis"; 
+// 1. Importa a função CONSTRUTORA (o valor) como default, renomeando-a para IORedisConstructor.
+// 2. Importa o TIPO (Redis) como named export.
+import IORedisConstructor, { Redis } from "ioredis"; 
 
 export class ServerAPICache {
     private static instance: ServerAPICache | null = null;
 
-    private client: redis | null;
+    // AQUI: Usamos Redis como TIPO
+    private client: Redis | null;
     public enabled: boolean = false;
 
     static enabled = false;
@@ -14,7 +17,9 @@ export class ServerAPICache {
     constructor() {
         const redisConnURL = process.env.SERVER_API_REDIS_CONN_URL;
         this.enabled = ServerAPICache.enabled = Boolean(redisConnURL);
-        this.client = this.enabled ? new redis(String(redisConnURL)) : null;
+        
+        // AQUI: Usamos IORedisConstructor como VALOR para instanciar
+        this.client = this.enabled ? new IORedisConstructor(String(redisConnURL)) : null;
     }
 
     static getInstance() {
@@ -35,10 +40,26 @@ export class ServerAPICache {
         const cachedData = this.enabled
             ? (await this.client?.get?.(key)) || null
             : null;
-        let data = JSON.parse(String(cachedData)) as T;
+        
+        let data: T;
 
-        if (!data) {
-            data = await dataGetter();
+        // Try to parse cached data
+        if (cachedData) {
+            try {
+                // Ensure we handle the case where cachedData is a string "null" or invalid JSON
+                data = JSON.parse(cachedData) as T;
+                return data;
+            } catch (e) {
+                console.error("Failed to parse cached data for key:", key, e);
+                // Fall through to re-fetch data if parsing fails
+            }
+        }
+        
+        // If data is not found or parsing failed, fetch new data
+        data = await dataGetter();
+        
+        // Only set cache if enabled and data is valid (optional check)
+        if (this.enabled) {
             await this.client?.set?.(
                 key,
                 JSON.stringify(data),
@@ -46,6 +67,7 @@ export class ServerAPICache {
                 expirySeconds
             );
         }
+
         return data;
     }
 

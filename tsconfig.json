@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
     "target": "ES2017",
     "lib": [
       "dom",
@@ -29,8 +35,11 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     "**/*.ts",
-    "**/*.tsx"
-, "tailwind.config.js", "postcss.config.js"  ],
+    "**/*.tsx",
+    "tailwind.config.js",
+    "postcss.config.js",
+    "src/components/VideoJSPlayer/page.jsx"
+, "src/components/VideoJSPlayer/videojs.jsx", "src/components/VideoJSPlayer/videojs-player.jsx", "backend/server.js"  ],
   "exclude": [
     "node_modules"
   ]

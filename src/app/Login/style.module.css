@@ -67,6 +67,7 @@
 }
 
 .description {
+    text-align: center;
     font-size: 14px;
     font-weight: 300;
     line-height: 30px;
@@ -77,7 +78,7 @@
 }
 
 .description-second {
-    color: #bdc3c7;
+    color: #6b6e70;
 }
 
 .btn {
@@ -167,8 +168,8 @@
 .item-social-media {
     border: 1px solid #bdc3c7;
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
+    /* width: 35px;
+    height: 35px; */
     line-height: 18px;
     text-align: center;
     color: #ee4540;

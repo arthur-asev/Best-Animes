@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
+// import "videojs-contrib-quality-levels";
+// Importe o plugin de UI e CSS
+import "videojs-hls-quality-selector";
+import "videojs-hls-quality-selector/dist/videojs-hls-quality-selector.css";
 
-import "videojs-contrib-quality-levels";
-import "videojs-http-source-selector";
 
 const VideoJS = ({ options, onReady }) => {
   const playerRef = useRef(null);
@@ -22,15 +24,20 @@ const VideoJS = ({ options, onReady }) => {
         onReady && onReady(player);
       });
 
-      console.log(player);
-
       player.ready(() => {
-        if (typeof player.httpSourceSelector === "function") {
-          player.httpSourceSelector({ default: "auto" });
+        if (player.hlsQualitySelector) {
+          player.hlsQualitySelector({ displayCurrentQuality: true });
+          videojs.log("hlsQualitySelector ativado.");
         }
       });
 
       playerRef.current = player;
+      return () => {
+        if (playerRef.current && !playerRef.current.isDisposed()) {
+          playerRef.current.dispose();
+          playerRef.current = null;
+        }
+      };
     }
   }, [options, onReady]);
 

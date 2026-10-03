@@ -6,6 +6,7 @@ import Image from 'next/image';
 import style from './style.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSearch } from "@fortawesome/free-solid-svg-icons";
+import Link from 'next/link';
 
 
 const Home = () => {
@@ -19,7 +20,7 @@ const Home = () => {
             const res = await fetch('https://yumaapi.vercel.app/recent-episodes');
             const data = await res.json();
             console.log(data);
-            
+
             setAnime(data);
         }
         fetchAnimes();
@@ -56,17 +57,12 @@ const Home = () => {
 
     return (
         <>
-
-
             <Nav />
 
-            <div className={style.container}>
+            {/* <div className={style.lastEps}> Últimos episódios Lançados</div> */}
 
-
-                {/* <div className={style.lastEps}> Últimos episódios Lançados</div> */}
-
-                <div className='container '>
-
+            <div className='min-h-screen  bg-gray-900 pb-5 text-gray-100'>
+                <div className='container mx-auto '>
                     <div className='flex justify-end shadow-[5px_20px_18px_#181515]  items-center '>
 
                         <div className=' flex p-2 items-center '>
@@ -76,6 +72,7 @@ const Home = () => {
                             <div>  <input
                                 name='search'
                                 type="text"
+                                className="text-black p-2 rounded-md focus:outline-none"
                                 placeholder="Digite o nome do anime..."
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
@@ -89,26 +86,24 @@ const Home = () => {
                     {loading && <p>Carregando...</p>}
 
                     {!loading && anime && (
-                        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-5 gap-8 ">
-                            {anime.results.map((anime) => (
-                                <div key={anime.id} className="bg-gray-700 p-4 flex flex-col shadow hover:scale-105 transition max-h-[620px]">
-                                    <div className='flex justify-center max-w-[411px] max-h-[500px]'>
+                        <div className="grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-5 ">
+                            {anime.results.map((card) => (
+                                <div key={card.id} className="bg-indigo-800 p-4 rounded-md flex items-center flex-col shadow hover:scale-105 transition max-h-[620px]">
+                                    <Link className="thumbLink" href={`/animedetail/${card.id}`}>
                                         <Image
                                             width={300}
                                             height={100}
                                             loading='eager'
-                                            src={anime.image}
-                                            alt={anime.title}
+                                            src={card.image}
+                                            alt={card.title}
                                             className={`${style.epImg} `}
                                         />
-                                    </div>
 
-                                    <h3 className="text-lg text-center text-white font-semibold mt-2">{anime.title}</h3>
+                                        <h3 className="text-lg text-center text-white font-semibold mt-2">{card.title}</h3>
+                                    </Link>
                                 </div>
                             ))}
-                            <div>
-                                
-                            </div>
+
                         </div>
                     )}
                 </div>

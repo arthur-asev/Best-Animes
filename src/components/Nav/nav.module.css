@@ -1,59 +1,95 @@
 
- 
-
-.btnz{
-    cursor: pointer;
-    background: none;
-    border: none;
-    border: none;
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: lighter;
-    display: inline;
-    color: white;
-    text-decoration: none;
-}
-
-.btnz:focus{
-    outline: 0;
-}
-
-
 .nav_bar {
-    width: 100%;
-    display: flex;
-    background: linear-gradient(1deg, #414141, #801336, #c72c41, #ee4540);
-    font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(1deg, #414141, #801336, #c72c41, #ee4540);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1000;
+  
 }
 
+.logo a {
+  display: flex;
+  align-items: center;
+  color: white !important;
+}
+
+.logo img {
+  height: 4rem;
+  width: 120px;
+}
+
+/* MENU DESKTOP: sempre visível em telas grandes */
 .nav_style {
-    margin-top: 5px;
-    width: 100%;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.5rem;
+  align-items: center;
 }
 
-
-.rightIcon {
-    cursor: pointer;
-    margin-top: 0.2rem;
-    margin-left: 5px;
-    color: white;
-    float: right;
+.nav_style li a,
+.nav_style li button {
+  text-decoration: none;
+  color: #e0dcdc;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
-.nav_bar a{
-
-    font-size: 20px;
-    font-weight: lighter;
-    display: inline;
-    color: white;
-    text-decoration: none;
+.rightIcon a {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
-.search_bar{
-    height: 1.5rem;
-    margin-top: 10px;
-    border: none;
-    border-radius: 3px;
+.hamburger {
+  display: none; /* Escondido no desktop */
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #e0dede;
 }
 
+/* RESPONSIVO: mobile */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block; /* Aparece no mobile */
+  }
 
+  /* Esconde o menu no mobile POR PADRÃO (mas mantém no fluxo) */
+  .nav_style {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 999;
+
+    /* ANIMAÇÃO: escondido mas ocupando espaço */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    pointer-events: none; /* impede cliques quando invisível */
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+  }
+
+  /* Quando aberto: mostra com suavidade */
+  .nav_style.mobileMenuOpen {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}

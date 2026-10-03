@@ -12,7 +12,7 @@ app.use(cors());
 // ----------------------
 // Redis Upstash Setup
 // ----------------------
-const redis = new Redis(process.env.SERVER_API_REDIS_CONN_URL, { tls: {} });
+// const redis = new Redis(process.env.SERVER_API_REDIS_CONN_URL, { tls: {} });
 
 redis.ping()
   .then(res => console.log("✅ Redis ping:", res))
@@ -38,8 +38,7 @@ async function fetchSegmentsConcurrently(urls, concurrency = 5, readyThreshold =
             responseType: "arraybuffer",
             // ADICIONANDO HEADERS PARA PREVENIR 403 DURANTE O PRE-FETCH DOS SEGMENTOS
             headers: {
-              "User-Agent":
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+              "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
               Referer: "https://megacloud.blog/embed-2/v3/e-1/vlFkDBBfoRWN?k=1",
             },
           });
