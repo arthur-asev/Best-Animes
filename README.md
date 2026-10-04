@@ -1,70 +1,154 @@
-# Getting Started with Create React App
+# Best-Animes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplicação web para descoberta e reprodução de anime com arquitetura desacoplada entre frontend, backend e provider de streaming.
 
-## Available Scripts
+## Arquitetura atual
 
-In the project directory, you can run:
+```text
+┌──────────────────────┐
+│      Next.js         │
+│      React 19        │
+└──────────┬───────────┘
+           │ /api, /sign, /stream
+           ▼
+┌──────────────────────┐
+│   Express Backend    │
+│ API + Proxy + JWT    │
+└───────┬───────┬──────┘
+        │       │
+        │       └──────────────┐
+        ▼                      ▼
+┌──────────────┐       ┌──────────────┐
+│     Kuhi     │       │    Redis     │
+│ FastAPI/Py   │       │    Cache     │
+└──────┬───────┘       └──────────────┘
+       │
+       ▼
+ Native providers
+```
 
-### `yarn start`
+## Componentes
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Frontend:** Next.js 16, React 19, Video.js.
+- **Backend:** Node.js, Express, JWT, Redis, proxy HTTP/HLS.
+- **Provider:** `KuhiProvider`.
+- **Kuhi:** serviço Python/FastAPI externo ao domínio do frontend.
+- **Redis:** cache e otimizações de streaming.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+O Kuhi documenta atualmente uma API experimental com providers nativos, corrida de providers e endpoints de extração/streaming. A disponibilidade do upstream não é garantida. citeturn0search0
 
-### `yarn test`
+## Subir com Docker
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+docker compose up -d --build
+```
 
-### `yarn build`
+Aplicação:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```text
+http://localhost:3000
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Backend:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```text
+http://localhost:5000/health
+```
 
-### `yarn eject`
+## Variáveis principais
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Copie `.env-exemple` para `.env` e ajuste os valores:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```env
+SIGN_API_KEY=...
+STREAM_SECRET=...
+PROXY_HOST=http://localhost:5000
+KUHI_REPO=https://github.com/aryaniiil/anime-api.git
+KUHI_REF=main
+KUHI_TIMEOUT_MS=15000
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Para produção, use secrets fortes e configure `ALLOWED_HOSTS`/CORS de forma restritiva.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## API principal
 
-## Learn More
+```text
+GET /api/anime/search?q=<term>
+GET /api/anime/info/:id
+GET /api/anime/watch/:episodeId
+GET /api/anime/top-airing
+GET /api/anime/recent-episodes
+GET /api/anime/genres
+GET /api/anime/providers/status
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## ID de episódio
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+O backend usa:
 
-### Code Splitting
+```text
+kuhi:<anilistId>:<episode>:sub
+kuhi:<anilistId>:<episode>:dub
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Exemplo:
 
-### Analyzing the Bundle Size
+```text
+kuhi:21:1:sub
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Desenvolvimento
 
-### Making a Progressive Web App
+Frontend:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+npm install
+npm run dev
+```
 
-### Advanced Configuration
+Backend:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+cd backend
+npm install
+npm start
+```
 
-### Deployment
+## Validação
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+npm run build
+```
 
-### `yarn build` fails to minify
+Backend:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+cd backend
+npm test
+```
+
+Docker:
+
+```bash
+docker compose config
+docker compose ps
+```
+
+## Documentação
+
+A documentação completa está em [`docs/`](docs/README.md).
+
+Comece por:
+
+1. `docs/01-architecture.md`
+2. `docs/02-provider-system.md`
+3. `docs/03-kuhi-integration.md`
+4. `docs/05-streaming-flow.md`
+5. `docs/06-docker.md`
+6. `docs/11-codex-guide.md`
+
+Consulte a documentação atual em `docs/README.md`.
+
+## Licença
+
+Consulte `LICENSE`.

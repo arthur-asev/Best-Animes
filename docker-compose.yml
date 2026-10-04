@@ -1,0 +1,79 @@
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_STREAM_API_KEY: ${SIGN_API_KEY:-}
+    environment:
+      BACKEND_URL: http://backend:5000
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      BACKEND_URL: http://backend:5000
+      PROXY_HOST: ${PROXY_HOST:-http://localhost:5000}
+      SIGN_API_KEY: ${SIGN_API_KEY:?Set SIGN_API_KEY in your environment}
+      STREAM_SECRET: ${STREAM_SECRET:?Set a strong STREAM_SECRET in your environment}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      SERVER_API_REDIS_CONN_URL: redis://redis:6379
+      KUHI_URL: http://kuhi:8000
+      KUHI_TIMEOUT_MS: ${KUHI_TIMEOUT_MS:-15000}
+      CATALOG_SEARCH_TTL_SECONDS: ${CATALOG_SEARCH_TTL_SECONDS:-300}
+      CATALOG_INFO_TTL_SECONDS: ${CATALOG_INFO_TTL_SECONDS:-1800}
+      CATALOG_TOP_TTL_SECONDS: ${CATALOG_TOP_TTL_SECONDS:-300}
+      CATALOG_RECENT_TTL_SECONDS: ${CATALOG_RECENT_TTL_SECONDS:-120}
+      CATALOG_GENRES_TTL_SECONDS: ${CATALOG_GENRES_TTL_SECONDS:-86400}
+    ports:
+      - "5000:5000"
+    depends_on:
+      redis:
+        condition: service_healthy
+      kuhi:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:5000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    restart: unless-stopped
+
+  kuhi:
+    build:
+      context: ./kuhi
+      args:
+        KUHI_REPO: ${KUHI_REPO:-https://github.com/aryaniiil/anime-api.git}
+        KUHI_REF: ${KUHI_REF:-main}
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/docs', timeout=5)"]
+      interval: 15s
+      timeout: 8s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  redis-data:
