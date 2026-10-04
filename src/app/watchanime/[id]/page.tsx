@@ -7,7 +7,8 @@ import EpisodeLoader from './EpisodeLoader.jsx'; // 🟢 Importa o novo Cliente 
 async function fetchAnimeEpisode(id) {
   // console.log(id);
 
-  const res = await axios.get(`http://localhost:3000/api/anime/watch/${id}`);
+  const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+  const res = await axios.get(`${backendUrl}/api/anime/watch/${encodeURIComponent(id)}`);
   console.log(res);
   if (!res || res.status !== 200) {
     // Isso pode ser substituído por um `notFound()` do Next.js se o item não existir

@@ -15,7 +15,7 @@ export default function Genres() {
         async function fetchGenres() {
             setLoading(true);
             try {
-                const res = await fetch('http://localhost:3000/genreslist');
+                const res = await fetch('/api/anime/genres');
                 const data = await res.json();
 
                 setGenres(data);
@@ -49,4 +49,3 @@ export default function Genres() {
         </>
     );
 }
-

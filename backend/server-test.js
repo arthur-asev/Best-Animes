@@ -8,6 +8,8 @@ import jwt from "jsonwebtoken";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import crypto from "crypto";
+import animeRoutes from "./src/routes/animeRoutes.js";
+import mangaRoutes from "./src/routes/mangaRoutes.js";
 
 dotenv.config();
 
@@ -76,6 +78,11 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// Keep API routes behind Helmet, the global rate limiter, and user-agent filtering.
+app.use("/api/anime", animeRoutes);
+app.use("/api/manga", mangaRoutes);
+app.get("/genreslist", (_req, res) => res.redirect(307, "/api/anime/genres"));
 
 // ---------- HELPERS ----------
 function validateHost(urlString) {

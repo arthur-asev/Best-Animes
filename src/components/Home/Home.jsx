@@ -17,7 +17,7 @@ const Home = () => {
 
     useEffect(() => {
         async function fetchAnimes() {
-            const res = await fetch('https://yumaapi.vercel.app/recent-episodes');
+            const res = await fetch('/api/anime/recent-episodes');
             const data = await res.json();
             console.log(data);
 
@@ -35,7 +35,7 @@ const Home = () => {
         const fetchAnime = async () => {
             try {
                 setLoading(true);
-                const res = await fetch(`https://yumaapi.vercel.app/search/${title}`);
+                const res = await fetch(`/api/anime/search?q=${encodeURIComponent(title)}`);
                 const data = await res.json();
                 setAnime(data);
                 console.log(data);

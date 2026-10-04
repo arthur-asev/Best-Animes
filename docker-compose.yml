@@ -1,0 +1,44 @@
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_STREAM_API_KEY: ${SIGN_API_KEY:-}
+    environment:
+      BACKEND_URL: http://backend:5000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      PORT: 5000
+      BACKEND_URL: http://backend:5000
+      PROXY_HOST: ${PROXY_HOST:-http://localhost:5000}
+      SIGN_API_KEY: ${SIGN_API_KEY:-}
+      STREAM_SECRET: ${STREAM_SECRET:-change-this-secret}
+      SERVER_API_REDIS_CONN_URL: redis://redis:6379
+    ports:
+      - "5000:5000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  redis-data:

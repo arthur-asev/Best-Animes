@@ -11,7 +11,8 @@ import EpisodeButton from './EpisodeButton';
 
 // 1. Função para buscar os dados de um anime específico
 async function   fetchAnimeDetail(id) {
-    const res = await axios.get(`http://localhost:3000/api/anime/info?id=${id}`);
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+    const res = await axios.get(`${backendUrl}/api/anime/info/${encodeURIComponent(id)}`);
     console.log(res);
     return res.data;
 }

@@ -2,6 +2,7 @@
   "type": "module",
   "name": "bestanimes",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.1.0",

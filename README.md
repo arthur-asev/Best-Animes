@@ -1,70 +1,116 @@
-# Getting Started with Create React App
+# Best Animes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplicação de catálogo e reprodução de animes. O projeto tem duas partes: o frontend em Next.js (`/`) e a API/proxy de mídia em Express (`/backend`). A API usa o provider Zoro da dependência `@consumet/extensions`.
 
-## Available Scripts
+## Requisitos
 
-In the project directory, you can run:
+- Node.js 20.9 ou superior
+- npm
+- Redis apenas se quiser habilitar o cache do proxy de mídia (opcional)
 
-### `yarn start`
+## Rodar em desenvolvimento
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Clone o repositório e entre na pasta do projeto.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+2. Instale as dependências do frontend:
 
-### `yarn test`
+   ```bash
+   npm ci
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. Instale as dependências do backend:
 
-### `yarn build`
+   ```bash
+   cd backend
+   npm ci
+   cd ..
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. Configure as variáveis de ambiente para reprodução de vídeo. Crie `backend/.env` com:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```dotenv
+   SIGN_API_KEY=uma-chave-compartilhada-local
+   STREAM_SECRET=uma-frase-secreta-longa-e-aleatoria
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   Crie também `.env.local` na raiz, usando o mesmo valor de `SIGN_API_KEY`:
 
-### `yarn eject`
+   ```dotenv
+   NEXT_PUBLIC_STREAM_API_KEY=uma-chave-compartilhada-local
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+   Essas variáveis habilitam a assinatura das URLs do proxy HLS. Sem elas, a API de catálogo pode iniciar, mas o endpoint de assinatura de streams não funcionará. Redis não é necessário para iniciar; defina `SERVER_API_REDIS_CONN_URL` em `backend/.env` somente se tiver uma instância Redis disponível.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. Em um terminal, inicie o backend:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+   ```bash
+   cd backend
+   npm start
+   ```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+   A API ficará em `http://localhost:5000`.
 
-## Learn More
+6. Em outro terminal, na raiz do projeto, inicie o frontend:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   ```bash
+   npm run dev
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   Acesse `http://localhost:3000`. O frontend encaminha as rotas `/api/*` para o backend na porta `5000`.
 
-### Code Splitting
+## Rodar com Docker
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Requer Docker com Docker Compose. A partir da raiz do repositório:
 
-### Analyzing the Bundle Size
+1. Crie a configuração local e defina chaves aleatórias. O `SIGN_API_KEY` é compartilhado pelo frontend e backend.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   ```bash
+   cp .env-exemple .env
+   ```
 
-### Making a Progressive Web App
+2. Construa e inicie frontend, API e Redis:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+   ```bash
+   docker compose up --build -d
+   ```
 
-### Advanced Configuration
+3. Acesse `http://localhost:3000`. A API fica disponível em `http://localhost:5000/health`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Use `docker compose logs -f` para acompanhar os logs e `docker compose down` para parar os serviços. O Redis persiste os dados no volume `redis-data`. Depois de alterar `SIGN_API_KEY`, reconstrua os serviços com `docker compose up --build -d`, pois a chave pública é incorporada ao frontend durante o build.
 
-### Deployment
+Ao publicar a API em outro host/domínio, defina `PROXY_HOST` no `.env` com a URL pública que o navegador deve acessar. Não publique o arquivo `.env`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Comandos úteis
 
-### `yarn build` fails to minify
+Na raiz:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+npm run dev       # inicia o frontend em desenvolvimento
+npm run build     # gera a versão de produção do frontend
+npm start         # inicia o frontend em modo de produção (após npm run build)
+```
+
+Em `backend/`:
+
+```bash
+npm start         # inicia API e proxy HLS na porta 5000
+npm test          # executa os testes automatizados do backend
+```
+
+## Rotas principais da API
+
+- `GET /api/anime/search?q=termo` — busca animes
+- `GET /api/anime/info/:id` — detalhes de um anime
+- `GET /api/anime/watch/:episodeId` — fontes e dados de reprodução
+- `GET /api/anime/top-airing` — animes em exibição
+- `GET /api/anime/recent-episodes` — episódios recentes
+- `GET /api/anime/genres` — gêneros
+- `GET /health` — verifica se o backend está ativo
+
+As rotas `/api/manga/*` estão preparadas, mas respondem que ainda não há provider de mangá disponível.
+
+## Observações
+
+- A configuração do Next encaminha a API e o proxy para `BACKEND_URL`; no Compose, essa URL aponta para o serviço `backend`.
+- `BACKEND_URL` pode ser configurada no ambiente do Next para páginas renderizadas no servidor. O padrão é `http://localhost:5000`.
+- Não versionar arquivos `.env` nem compartilhar chaves reais.
